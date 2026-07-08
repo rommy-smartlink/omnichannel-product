@@ -7,7 +7,7 @@ Dashboard bagi owner laundry untuk mengontrol bot di level WABA dan per outlet. 
 1. **Master switch per-WABA**: ON/OFF bot untuk semua outlet di WABA sekaligus (untuk maintenance atau emergency).
 2. **Per-outlet intent toggle**: enable/disable masing-masing intent (misal `check_laundry_status`, `check_ticket_status`, dst) untuk outlet tertentu, tanpa bulk action.
 
-Tujuan: owner punya kontrol granular kapan dan di outlet mana fitur bot hidup, sambil punya escape hatch cepat (master switch) untuk keadaan darurat atau maintenance window.
+Tujuan: owner punya kontrol granular kapan dan di outlet mana fitur bot hidup, sambil punya jalur cepat (master switch) untuk keadaan darurat atau maintenance window.
 
 ---
 
@@ -136,6 +136,8 @@ Bot: "Maaf, fitur ini sedang tidak tersedia di outlet ini.
 ┌─────────────────────────────────────────────────────────┐
 │  🤖 Bot Control Panel                       Owner       │
 ├─────────────────────────────────────────────────────────┤
+│  WABA: [ WABA-1 (Utama) ▾ ]                              │
+├─────────────────────────────────────────────────────────┤
 │  Status Bot:  [ ●──── ON  ]   Last updated: 2 jam lalu  │
 │  ℹ️  Saat OFF, semua outlet di WABA langsung ke agent   │
 ├─────────────────────────────────────────────────────────┤
@@ -143,15 +145,15 @@ Bot: "Maaf, fitur ini sedang tidak tersedia di outlet ini.
 ├─────────────────────────────────────────────────────────┤
 │                                                         │
 │  ┌─ Outlet A (Jakarta Pusat) ──────────────────────┐  │
-│  │  Cek status laundry         ON   · 2 hari        │  │
-│  │  Cek status tiket           ON   · 5 hari        │  │
-│  │  Lihat layanan outlet       ON   · 1 hari        │  │
+│  │  Cek status laundry         ON   · updated 2 hari│  │
+│  │  Cek status tiket           ON   · updated 5 hari│  │
+│  │  Layanan outlet              ON   · updated 1 hari│ │
 │  │  ...                          ›                  │  │
 │  └──────────────────────────────────────────────────┘  │
 │                                                         │
 │  ┌─ Outlet B (Bandung) ─────────────────────────────┐  │
-│  │  Cek status laundry         OFF  · 1 hari        │  │
-│  │  Cek status tiket           OFF  · 1 hari        │  │
+│  │  Cek status laundry         OFF  · updated 1 hari │  │
+│  │  Cek status tiket           OFF  · updated 1 hari │  │
 │  │  ...                          ›                  │  │
 │  └──────────────────────────────────────────────────┘  │
 └─────────────────────────────────────────────────────────┘
@@ -162,7 +164,7 @@ Bot: "Maaf, fitur ini sedang tidak tersedia di outlet ini.
 - Lokasi: **header atas** Control Panel, sebelum search/sort.
 - Toggle langsung (tanpa modal konfirmasi, reversible).
 - Saat ON: visual normal (warna hijau / icon check).
-- Saat OFF: visual warning (warna merah / icon alert), banner info muncul.
+- Saat OFF: visual warning (warna merah / icon alert), banner info **"Bot nonaktif — semua outlet langsung ke agent"** muncul.
 - Last updated timestamp + siapa yang toggle ditampilkan di sebelah switch.
 - Default state: ON saat WABA baru dibuat.
 
@@ -179,9 +181,10 @@ Bot: "Maaf, fitur ini sedang tidak tersedia di outlet ini.
 Saat owner **tap/click pada card outlet**, muncul **modal** yang berisi:
 
 - Nama outlet + kota (header modal)
-- Daftar 6 intent configurable dengan status ON/OFF masing-masing + kapan terakhir diubah
+- Daftar 6 intent configurable dengan status ON/OFF masing-masing + timestamp kapan terakhir diubah (`updated_at`)
 - Toggle switch per intent (langsung aktif di modal, belum tersimpan)
-- `talk_to_agent` ditampilkan sebagai info lock: "Selalu aktif" (disabled)
+- `talk_to_agent` ditampilkan sebagai toggle switch dalam state **disabled/readonly** (visible tapi tidak bisa di-interaksi aktif)
+- Saat owner tap/click toggle `talk_to_agent` yang readonly: muncul **toast info** dengan teks **"Hubungi agen selalu aktif agar customer selalu bisa terhubung dengan tim kami."**, auto-dismiss dalam 3-5 detik, tidak ada efek di DB, modal tetap terbuka
 - Tombol **Simpan** (primary, kanan bawah) dan **Batal** (secondary, kiri bawah)
 
 ```
@@ -191,18 +194,38 @@ Saat owner **tap/click pada card outlet**, muncul **modal** yang berisi:
 │                                             │
 │  Cek status laundry      [ ●──── ON  ]     │
 │  Cek status tiket        [ ●──── ON  ]     │
-│  Lihat layanan outlet    [ ●──── ON  ]     │
+│  Layanan outlet         [ ●──── ON  ]     │
 │  Jam operasional         [ ○──── OFF ]     │
 │  Promo aktif             [ ●──── ON  ]     │
 │  Info member             [ ●──── ON  ]     │
-│  Hubungi agen            🔒 Selalu aktif   │
+│  Hubungi agen            [ ●──── ON ] 🔒   │
 │                                             │
 ├─────────────────────────────────────────────┤
 │              [ Batal ]      [ Simpan ]      │
 └─────────────────────────────────────────────┘
 ```
 
-Flow:
+### PATCH Payload Format
+
+Saat owner klik **Simpan** di modal edit outlet, client kirim PATCH request dengan format:
+
+```json
+{
+  "outlet_id": "uuid",
+  "intents": [
+    { "intent_name": "check_laundry_status", "is_enabled": false },
+    { "intent_name": "get_active_promos", "is_enabled": true }
+  ]
+}
+```
+
+- Payload hanya berisi **intent yang berubah state** (delta). Intent yang tidak diubah tidak perlu dikirim.
+- `talk_to_agent` tidak boleh ada di payload — server ignore jika dikirim.
+- Server update semua row yang ada di payload secara **atomic** dalam satu transaksi.
+- Response: `200 OK` + updated rows dengan `updated_at` terbaru, atau `4xx/5xx` jika gagal.
+
+### Interaction Flow
+
 1. Owner tap card → modal buka dengan state settings outlet saat ini
 2. Owner toggle beberapa intent (perubahan hanya di state lokal, belum PATCH)
 3. Owner klik **Simpan** → PATCH endpoint dengan payload perubahan
@@ -261,14 +284,19 @@ Tidak ada empty state — menu Control Panel hanya muncul jika owner sudah punya
 
 ### Functional
 
+- [ ] Owner bisa lihat WABA selector di paling atas Control Panel
+- [ ] Owner bisa ganti WABA via WABA selector, semua state Control Panel re-load sesuai WABA yang dipilih
+- [ ] Master switch state independen per WABA (toggle di WABA-A tidak ubah WABA-B)
 - [ ] Owner bisa lihat master switch WABA di header Control Panel
 - [ ] Owner bisa toggle master switch ON/OFF langsung dari header (tanpa modal konfirmasi)
-- [ ] Saat master switch ON, indicator normal; saat OFF, indicator warning + banner info
+- [ ] Saat master switch ON, indicator normal; saat OFF, indicator warning + banner info "Bot nonaktif — semua outlet langsung ke agent"
 - [ ] Default state WABA baru: master switch ON
-- [ ] Owner bisa lihat semua outlet miliknya yang terdaftar omnichannel di control panel
+- [ ] Owner bisa lihat semua outlet miliknya yang terdaftar omnichannel di control panel (filtered by WABA yang dipilih)
 - [ ] Owner bisa search outlet berdasarkan nama / kode / kota
 - [ ] Owner bisa sort outlet (alfabet / updated / status)
 - [ ] Owner bisa toggle ON/OFF untuk 6 intent configurable
+- [ ] PATCH payload berisi hanya intent yang berubah (delta), server atomic per outlet
+- [ ] Saat tap toggle readonly "Hubungi agen", muncul toast info dan auto-dismiss 3-5 detik
 - [ ] `talk_to_agent` tampil sebagai info lock "Selalu aktif", tidak bisa di-interaksi
 - [ ] Card outlet read-only, tap untuk buka modal edit
 - [ ] Modal edit punya tombol Simpan (PATCH) dan Batal (discard perubahan lokal)
@@ -301,6 +329,25 @@ Tidak ada empty state — menu Control Panel hanya muncul jika owner sudah punya
 
 - [ ] Endpoint toggle: require auth + ownership check
 - [ ] Tidak ada endpoint yang bypass ownership validation
+
+---
+
+## Multi-WABA & WABA Selector
+
+Owner dapat memiliki lebih dari satu WABA. Control Panel di-scope per-WABA melalui WABA selector.
+
+**Behavior**:
+
+- WABA selector berada di paling atas Control Panel (sebelum master switch, search, dan sort).
+- Saat owner ganti pilihan WABA, semua state Control Panel (master switch, banner info, daftar outlet, sort) **re-load** sesuai WABA yang dipilih — independent per WABA.
+- Master switch state tersimpan **independen per WABA**: toggle di WABA-A tidak mengubah state WABA-B.
+- Outlet yang ditampilkan di list hanya outlet yang **(a) milik owner saat ini** AND **(b) `is_omnichannel_enabled = true`** AND **(c) terkait WABA yang sedang dipilih via selector**.
+- Default WABA yang dipilih saat membuka Control Panel: WABA yang pertama kali diaktivasi (atau sesuai konfigurasi "default WABA" owner jika ada — di luar scope MVP ini, pilih WABA pertama di list).
+
+**Edge case**:
+
+- Owner dengan 1 WABA: WABA selector tetap tampil (bukan hidden) untuk konsistensi UI — namun hanya menampilkan 1 pilihan.
+- Owner yang belum punya WABA: menu Control Panel tidak muncul (sesuai empty state PRD).
 
 ---
 
