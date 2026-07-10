@@ -1,4 +1,4 @@
-# CLAUDE.md
+# GitHub Copilot Instructions
 
 Bot AI Omnichannel untuk WhatsApp — chatbot slot-filling berbasis LLM, melayani CS lapis pertama setelah customer memilih outlet. Customer chat natural, bot pahami intent, kumpulkan info yang kurang, jawab dari data tersedia, atau eskalasi ke agen manusia.
 
@@ -7,7 +7,6 @@ Bot AI Omnichannel untuk WhatsApp — chatbot slot-filling berbasis LLM, melayan
 - **Preferred**: Bahasa Indonesia untuk semua output (PRD, GWT, brainstorm notes, komentar)
 - Istilah teknis (intent, slot-filling, escalation) boleh tetap bahasa Inggris bila lebih tepat
 - Format markdown tetap English-friendly (headers, table)
-- **Hindari jargon produk ambigu** seperti "penalty over-escalation", "over-escalation penalty". Kalau maksudnya "customer minta agen langsung di-grant tanpa friction", tulis eksplisit: *tidak ada konfirmasi, tidak ada tanya alasan, tidak ada counter, tidak ada limit percakapan.* Customer-facing principle: setiap permintaan eskalasi dihormati tanpa syarat.
 
 ## Referensi Utama
 
