@@ -7,6 +7,7 @@ Bot AI Omnichannel untuk WhatsApp — chatbot slot-filling berbasis LLM, melayan
 - **Preferred**: Bahasa Indonesia untuk semua output (PRD, GWT, brainstorm notes, komentar)
 - Istilah teknis (intent, slot-filling, escalation) boleh tetap bahasa Inggris bila lebih tepat
 - Format markdown tetap English-friendly (headers, table)
+- Jangan pakai placeholder variable di output final seperti `[Outlet]`, `[Nama Outlet]`, `[N]`, `RpX`, `X bulan`, atau `{id}`. Pakai contoh konkret, atau jelaskan sebagai aturan tanpa placeholder.
 
 ## Referensi Utama
 
