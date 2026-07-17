@@ -26,11 +26,10 @@ Selain itu, owner membutuhkan emergency switch untuk menghentikan bot di seluruh
 
 ### Current Condition
 
-- Seluruh intent bot aktif untuk semua outlet, tanpa kemampuan menonaktifkan per outlet.
-- Owner tidak bisa menghentikan bot dengan cepat saat maintenance atau emergency.
-- Owner tidak bisa membatasi capability per outlet — misalnya menonaktifkan cek status laundry untuk outlet yang belum siap.
-- Jam operasional belum dikelola — saat fitur rilis, default 24 jam untuk semua outlet.
-- Tidak ada visibilitas status kesiapan bot per outlet.
+- Bot AI omnichannel belum tersedia — semua percakapan customer langsung ditangani agen manusia.
+- Owner tidak memiliki kendali untuk mengaktifkan/menonaktifkan bot karena fitur bot belum ada.
+- Tidak ada mekanisme emergency stop — tidak ada bot yang perlu dihentikan.
+- Jam operasional layanan outlet belum terintegrasi dengan sistem percakapan.
 
 ### Problems
 
