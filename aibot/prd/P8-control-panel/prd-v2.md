@@ -83,7 +83,7 @@ Tujuan: memberikan kontrol bot yang granular tanpa membiarkan capability aktif s
 
 - Lima intent configurable selain Jam Operasional mengikuti default existing: **ON**.
 - `get_operating_hours` default **OFF**.
-- Status Jam Operasional: **Perlu pengaturan**.
+- Card outlet menampilkan **24 Jam** hanya untuk skema default. Outlet dengan jadwal kustom tidak menampilkan info jam operasional di card.
 
 ### Existing Outlet
 
@@ -93,17 +93,14 @@ Tujuan: memberikan kontrol bot yang granular tanpa membiarkan capability aktif s
 
 ---
 
-## Status Jam Operasional di Control Panel
+## Status Jam Operasional di Card Control Panel
 
-| Status | Kondisi | Tampilan Toggle | Aksi Utama |
-|---|---|---|---|
-| Perlu pengaturan | Jadwal belum pernah dikonfigurasi. | OFF | Atur Jam Operasional |
-| Belum lengkap | Sebagian data ada tetapi belum valid. | OFF | Lanjutkan Pengaturan |
-| Siap diaktifkan | Jadwal valid, intent OFF. | OFF | Toggle ON atau Kelola Jadwal |
-| Aktif | Jadwal valid, intent ON. | ON | Kelola Jadwal atau toggle OFF |
-| Tidak konsisten | Intent tercatat ON tetapi jadwal tidak valid. | Ditampilkan warning dan diperlakukan OFF | Perbaiki Pengaturan |
+Card outlet hanya menampilkan status jam operasional jika outlet menggunakan skema default 24 jam:
 
-Status konfigurasi harus terlihat tanpa owner perlu membuka halaman pengaturan.
+| Status | Kondisi |
+|---|---|
+| 24 Jam | Outlet menggunakan skema default 24 jam. |
+| (tidak tampil) | Outlet menggunakan jadwal kustom. Detail di modal capability. |
 
 ---
 
@@ -207,10 +204,10 @@ Saya bisa hubungkan Kakak ke agent outlet untuk konfirmasi.
 │ Search: [________________] Sort: [Nama A-Z          ▾ ] │
 ├──────────────────────────────────────────────────────────┤
 │ Outlet A — Jakarta Pusat                                │
-│ 5 capability aktif · Jam Operasional perlu pengaturan › │
+│ 5 capability aktif                                     › │
 ├──────────────────────────────────────────────────────────┤
 │ Outlet B — Bandung                                      │
-│ 6 capability aktif · Jam Operasional aktif            › │
+│ 6 capability aktif · Jam Operasional 24 Jam           › │
 └──────────────────────────────────────────────────────────┘
 ```
 
@@ -221,7 +218,7 @@ Card tetap read-only dan menampilkan ringkasan:
 - Nama outlet.
 - Kota atau wilayah.
 - Jumlah intent aktif dan siap.
-- Status Jam Operasional jika belum aktif.
+- Status Jam Operasional di card: **24 Jam** jika skema default. Tidak tampil jika jadwal kustom.
 - Terakhir diperbarui.
 
 Owner membuka detail dengan menekan card.
@@ -237,8 +234,8 @@ Owner membuka detail dengan menekan card.
 │ Layanan outlet                     [ ●──── ON ]    │
 │                                                    │
 │ Jam operasional                                    │
-│ Perlu pengaturan                                   │
-│ [Atur Jam Operasional]             [ ○──── OFF ]  │
+│ 24 Jam                                             │
+│ [Kelola Jam Operasional]           [ ●──── ON ]    │
 │                                                    │
 │ Promo aktif                        [ ●──── ON ]    │
 │ Info member                        [ ●──── ON ]    │

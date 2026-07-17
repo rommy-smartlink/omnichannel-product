@@ -20,9 +20,9 @@
 3. Konfigurasi per-outlet **tetap tersimpan utuh** saat master OFF — tidak di-reset atau dimodifikasi.
 4. Saat master switch di-toggle ON lagi, konfigurasi per-outlet berlaku normal tanpa perlu setting ulang.
 5. Override priority: master switch OFF > per-outlet intent OFF > per-outlet intent ON.
-6. Toggle master switch langsung (tanpa modal konfirmasi, reversible).
+6. Toggle master switch menampilkan modal konfirmasi sebelum state berubah. Konfirmasi menjelaskan bahwa mematikan bot akan menghentikan percakapan bot yang sedang berlangsung dan mengalihkan customer ke agent. Owner pilih "Konfirmasi" untuk menyimpan atau "Batal" untuk membatalkan.
 7. Default state WABA baru: master switch ON.
-8. Saat owner ganti WABA via selector, master switch menampilkan state WABA yang baru dipilih (independent per WABA).
+8. Saat master switch diubah menjadi OFF, percakapan bot yang sedang berlangsung langsung dihentikan dan customer diarahkan ke agent pada respons berikutnya. Aturan ini tidak berlaku jika customer sudah berada di sesi chat dengan agent.
 
 | Prio SC | Given | When | Then |
 |---------|-------|------|------|
@@ -30,8 +30,9 @@
 | SC Utama | Owner di Control Panel, master switch sedang ON, ada 5 outlet di WABA dengan konfigurasi intent per-outlet masing-masing. | Owner tap toggle master switch dari ON ke OFF. | Master switch berubah ke OFF. Indicator visual berubah ke warna merah / icon warning. Banner info tambahan "Bot nonaktif — semua outlet langsung ke agent" muncul. PATCH ke server sukses dengan timestamp siapa & kapan berubah. Konfigurasi per-outlet untuk semua outlet tetap utuh (tidak dimodifikasi). |
 | SC Utama | Master switch WABA sedang OFF (semua outlet di WABA bot-nya off, konfigurasi per-outlet tetap tersimpan). Customer baru mengirim pesan pertama ke salah satu outlet di WABA. | Customer chat ke outlet manapun di WABA. | Bot skip greeting + skip classification. Conversation langsung di-eskalasi ke agent outlet terkait. Customer tidak terima response bot apapun (silent handoff). |
 | SC Utama | Master switch WABA OFF, outlet A memiliki konfigurasi "Cek status laundry" OFF dan "Layanan outlet" ON di pengaturan per-outlet. | Owner toggle master switch WABA dari OFF kembali ke ON. | Master switch berubah ke ON dengan indicator normal. Owner membuka modal edit outlet A — toggle "Cek status laundry" masih OFF dan "Layanan outlet" masih ON sesuai konfigurasi sebelum master OFF (konfigurasi per-outlet tetap tersimpan, tidak berubah). |
-| SC Pendukung | Owner memiliki 2 WABA (WABA-1 dengan master switch ON, WABA-2 dengan master switch OFF). Owner sedang di Control Panel untuk WABA-1. | Owner ganti pilihan ke WABA-2 via WABA selector. | Master switch otomatis update menampilkan state OFF sesuai WABA-2. Outlet list juga update menampilkan outlet WABA-2 saja. Toggle master di WABA-1 tidak ter-ubah (independent per WABA). |
-| SC Utama | Master switch WABA OFF, customer sedang dalam flow "Cek status laundry" (sebelum master di-off-kan). | Owner toggle master switch OFF. | Percakapan customer yang sedang berlangsung lanjut normal sampai selesai. Request berikutnya dari customer (atau customer lain di WABA) akan langsung di-eskalasi ke agent. |
+| SC Utama | Master switch WABA OFF, customer sedang dalam flow "Cek status laundry" (sebelum master di-off-kan). | Owner toggle master switch OFF, lalu konfirmasi di modal. | Modal konfirmasi tampil menjelaskan dampak penghentian chat. Setelah owner pilih "Konfirmasi", percakapan bot customer yang sedang berlangsung langsung dihentikan dan customer diarahkan ke agent pada respons berikutnya. Request berikutnya langsung di-eskalasi ke agent. |
+| SC Pendukung | Master switch WABA OFF, customer sedang dalam flow "Cek status laundry". | Owner tap toggle OFF lalu pilih "Batal" di modal konfirmasi. | Toggle kembali ke ON (tidak ada perubahan state). Percakapan bot customer tetap berjalan normal. |
+| SC Pendukung | Master switch WABA OFF saat customer sudah berada di sesi chat dengan agent (handoff sudah terjadi). | Owner toggle master switch OFF, lalu konfirmasi. | Toggle berubah ke OFF, namun aturan penghentian chat tidak berlaku karena tidak ada sesi bot aktif. Customer tetap di sesi agent. |
 | SC Pendukung | Master switch WABA OFF. | Owner toggle master switch ke ON. | Toggle master switch ke ON, indicator kembali normal, banner info OFF hilang. Konfigurasi per-outlet tetap utuh dan berlaku normal untuk request customer berikutnya. |
 | SC Pendukung | Master switch WABA ON. Outlet A dan outlet B masing-masing memiliki konfigurasi per-outlet sendiri. | Owner toggle master switch WABA ke OFF. | Toggle ke OFF. Saat customer chat ke outlet A maupun outlet B, conversation langsung di-eskalasi ke agent. Konfigurasi per-outlet untuk outlet A dan outlet B tetap utuh (tidak dimodifikasi). |
 
@@ -138,6 +139,8 @@
 | SC Utama | Outlet X memiliki setting semua 6 configurable intent = OFF (hanya "Hubungi agen" yang ON secara default). | Customer memilih outlet X, mengirim pesan pertama "Halo". | Bot load settings — tidak ada configurable intent yang bisa match. Outlet dianggap bot tidak aktif. Bot tidak mengirim salam pembuka dan tidak menampilkan menu. Pesan customer langsung dialihkan ke antrian agent outlet X (silent handoff). |
 | SC Pendukung | Outlet X dengan "Hubungi agen" ON (default, tidak bisa di-toggle oleh UI). Semua configurable intent dalam keadaan apapun (ON atau OFF). | Customer di outlet X mengirim "Saya mau bicara dengan admin". | Bot selalu match intent "Hubungi agen" regardless setting apapun di pengaturan per-outlet. Bot konfirmasi dan teruskan ke agent outlet X. Customer selalu punya escape ke manusia. |
 | SC Pendukung | Outlet X dengan 5 dari 6 configurable intent OFF, customer sudah di flow intent ON. | Customer mengetik "menu", "hubungi agen", atau "batal". | Bot selalu interpretasikan manual command tersebut regardless of pengaturan per-outlet. Command override toggle — owner tidak bisa menonaktifkan jalur customer ke agen. |
+| SC Utama | Outlet X dengan Autobot Outlet ON, customer sedang dalam flow "Cek status laundry". | Owner matikan Autobot Outlet X (toggle OFF di card). | Chat bot customer yang sedang berlangsung langsung dihentikan dan customer dialihkan ke agent pada respons berikutnya. Konfigurasi capability outlet tetap tersimpan. |
+| SC Pendukung | Outlet X dengan Autobot Outlet ON, customer sudah berada di sesi chat dengan agent. | Owner matikan Autobot Outlet X (toggle OFF). | Toggle berubah ke OFF, namun aturan penghentian chat tidak berlaku karena customer sudah di sesi agent. Customer tetap di sesi agent. |
 
 ## Error & Edge
 
@@ -156,3 +159,54 @@
 |---------|-------|------|------|
 | SC Pendukung | Modal edit outlet A terbuka. Owner sudah toggle 2 intent. Koneksi internet tiba-tiba terputus atau server timeout. | Owner klik Simpan. | Client kirim PATCH, request timeout/gagal. Toast error tampil: "Gagal menyimpan. Coba lagi." Modal tidak tertutup — owner bisa klik Simpan lagi (retry) tanpa kehilangan perubahan lokal. State DB tidak berubah sebagian (transaksi server side rollback / atomic single PATCH). |
 | SC Pendukung | Outlet A dengan "Cek status laundry" ON, timestamp terakhir = T0. Device device-1 dan device-2 keduanya membuka modal edit outlet A. | T1: device-1 toggle "Cek status laundry" ON→OFF, klik Simpan → server update row tersebut dengan timestamp T1. T2 (T2 > T1): device-2 toggle "Layanan outlet" ON→OFF, klik Simpan → server update row tersebut dengan timestamp T2. | Tidak ada race condition — PATCH per intent (atau atomic per outlet) sukses. Card outlet A menampilkan timestamp T2 (last_write_wins). Kedua device menampilkan state server yang terakhir di-save setelah refresh. |
+
+---
+
+## Supporting Information
+
+### Lo-Fi Design — Master Switch & Outlet Card
+
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ Bot Control Panel                                            │
+├──────────────────────────────────────────────────────────────┤
+│ WABA: [ WABA-1 (Utama)                                  ▾ ] │
+├──────────────────────────────────────────────────────────────┤
+│ Status Bot WABA: [ ●──── ON ]                               │
+│ Seluruh outlet pada WABA ini dapat menjalankan Autobot.      │
+│ Diperbarui 2 jam lalu oleh Agestya                           │
+├──────────────────────────────────────────────────────────────┤
+│ Outlet A — Jakarta Pusat                  Autobot [ ●── ON ] │
+│ Autobot aktif                                                │
+│ 6 capability aktif · Jam Operasional 24/7                  › │
+│ Diperbarui 2 jam lalu                                        │
+└──────────────────────────────────────────────────────────────┘
+```
+
+### Lo-Fi Design — Modal Konfirmasi Master Switch OFF
+
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ Nonaktifkan Bot WABA-1?                                  ✕  │
+├──────────────────────────────────────────────────────────────┤
+│ Mematikan bot akan menghentikan percakapan bot yang sedang   │
+│ berlangsung dan mengalihkan customer ke agent.               │
+│ Konfigurasi per-outlet tetap tersimpan.                      │
+├──────────────────────────────────────────────────────────────┤
+│                    [Batal] [Konfirmasi]                      │
+└──────────────────────────────────────────────────────────────┘
+```
+
+### Referensi PRD
+- PRD P8 Control Panel §9.3 (Interaction Master Switch — konfirmasi), §10.2 (Autobot Outlet OFF — in-flight interruption), §12 (Bot Flow Integration).
+- PRD Bot Runtime Behavior §6 (In-Flight Interruption) untuk perilaku chat saat switch berubah.
+
+### Data Fixture (contoh konkret)
+- WABA: `WABA-1 (Utama)`.
+- Outlet: `Outlet A — Jakarta Pusat`, `Outlet B — Bandung`, `Outlet C — Surabaya`.
+- Intent configurable: `Cek status laundry`, `Cek status tiket`, `Layanan outlet`, `Jam operasional`, `Promo aktif`, `Info member`.
+- Intent locked: `Hubungi agen` (selalu ON).
+
+### Catatan Asumsi
+- WABA selector sudah ada sebelum Control Panel (pre-existing), tidak dibuat di fitur ini.
+- Timestamp "diperbarui" diambil dari `updated_at` server-side per WABA dan per outlet.

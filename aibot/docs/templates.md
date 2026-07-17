@@ -26,13 +26,33 @@
 ```markdown
 # [Nama Intent] — GWT Scenarios
 
-## Scenario: [nama scenario]
+> Generated dari PRD [kode] — [Nama PRD].
+> Pattern mengikuti table Scenario di page "Detail User Stories": setiap skenario = 1 row, field Given/When/Then plain text.
+> Kode SC auto-generate dari formula di Coda ("SC-"+RowId(thisRow)) — tidak perlu ditulis manual.
 
-**Given** [precondition: state outlet, bot context, pesan customer]
+## [Nama Section]
 
-**When** [action/intent dari customer]
+**Goals**: [1 kalimat tujuan].
 
-**Then** [expected bot response: label ramah customer, trigger slot filling, eskalasi, dst]
+> **Sebagai [Role],**
+> saya ingin [keinginan],
+> sehingga [dampak/manfaat].
+
+**Detail**:
+1. [aturan bisnis / catatan perilaku — bentuknya mirip acceptance criteria]
+
+| Prio SC | Given | When | Then |
+|---------|-------|------|------|
+| SC Utama | [precondition] | [aksi] | [hasil] |
+| SC Pendukung | ... | ... | ... |
+
+---
+
+### Supporting Information (optional, ditaruh paling bawah)
+- Lo-fi design / wireframe (ASCII atau referensi gambar)
+- Referensi ke section PRD terkait
+- Data fixture / contoh konkret (ID, nama outlet)
+- Catatan asumsi atau dependency
 ```
 
 Simpan PRD ke `prd/<nama-intent>.md`, GWT ke `gwt/<nama-intent>.md`.
