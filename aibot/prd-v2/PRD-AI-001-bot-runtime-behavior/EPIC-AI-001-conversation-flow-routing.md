@@ -108,6 +108,25 @@ Jika intent masih tidak dapat dikenali setelah 2 percobaan berturut-turut, bot m
 
 Intent `talk_to_agent` tidak pernah dinonaktifkan dan tidak dicek di Gate 3 (Intent Switch). Customer selalu memiliki jalur eskalasi ke manusia terlepas dari pengaturan intent per outlet.
 
+### BR-AI-111 — Autoresolve Sesi Bot saat Customer Tidak Merespons
+
+Bot dapat menutup sesi percakapan secara otomatis jika customer tidak memberikan respons setelah batas waktu tertentu.
+
+Dua kategori waktu tunggu berlaku:
+
+* **Setelah flow selesai**: jika customer tidak merespons dalam 10 menit setelah bot memberikan jawaban akhir, bot mengirimkan notifikasi penutupan. Jika customer tetap tidak merespons dalam 5 menit setelah notifikasi, bot menutup sesi.
+* **Saat bot menunggu input (mid-slot-filling)**: jika customer tidak merespons dalam 5 menit saat bot sedang menunggu data yang diperlukan, bot mengirimkan notifikasi penutupan. Jika customer tetap tidak merespons dalam 5 menit setelah notifikasi, bot menutup sesi.
+
+Notifikasi yang dikirim: *"Kak, karena tidak ada balasan, saya tutup percakapan ini ya. Kalau butuh bantuan lagi, silakan chat kembali."*
+
+Setelah autoresolve, sesi dianggap baru untuk pesan customer berikutnya. Bot melakukan evaluasi effective state (3-gate) dari awal saat customer mengirim pesan baru.
+
+Autoresolve tidak berlaku untuk:
+* Customer yang sudah berada dalam sesi agent (post-handoff). Penutupan sesi agent sepenuhnya wewenang agent.
+* Percakapan yang sedang dalam proses handoff.
+
+Aturan ini berbeda dengan BR-AI-106 (timeout escalation). BR-AI-106 menangani kondisi bot gagal merespons — percakapan dialihkan ke agent. BR-AI-111 menangani kondisi customer tidak merespons — percakapan ditutup.
+
 ## 6. Referensi Dokumen Terkait
 
 | Dokumen | Deskripsi |

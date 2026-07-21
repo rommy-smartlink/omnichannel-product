@@ -48,10 +48,11 @@ Bot Runtime Behavior mendefinisikan bagaimana bot merespons customer berdasarkan
 - Explicit handoff saat customer meminta agent.
 - Timeout fallback setelah 1 menit.
 - Unknown intent fallback dengan daftar bantuan.
+- Autoresolve sesi bot saat customer tidak merespons dalam batas waktu tertentu.
 
 ### Proposed Solution
 
-Spesifikasi runtime behavior yang menjadi jembatan antara Bot Control Panel (konfigurasi) dan intent (eksekusi). Mencakup: effective state bot, greeting & menu, in-flight interruption, silent handoff, explicit handoff, timeout fallback, dan unknown fallback.
+Spesifikasi runtime behavior yang menjadi jembatan antara Bot Control Panel (konfigurasi) dan intent (eksekusi). Mencakup: effective state bot, greeting & menu, in-flight interruption, silent handoff, explicit handoff, timeout fallback, unknown fallback, dan autoresolve sesi idle.
 
 ## 2. Global Scope
 
@@ -69,6 +70,7 @@ Spesifikasi runtime behavior yang menjadi jembatan antara Bot Control Panel (kon
 - Data tidak siap fallback: informasi belum dapat dipastikan.
 - Semua configurable capability OFF → silent handoff tanpa greeting.
 - Command manual "menu", "hubungi agen" selalu berfungsi.
+- Autoresolve sesi idle: bot menutup sesi otomatis jika customer tidak merespons.
 
 ### Out of Scope
 

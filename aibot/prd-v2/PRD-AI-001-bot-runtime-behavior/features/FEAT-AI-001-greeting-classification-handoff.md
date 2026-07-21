@@ -30,6 +30,7 @@ Menentukan bagaimana bot merespons customer dari pesan pertama hingga percakapan
 - **Fallback data tidak siap**: informasi belum dapat dipastikan.
 - **Perintah kendali**: "menu", "hubungi agen" selalu berfungsi.
 - **Penguncian percakapan ke agent**: setelah handoff, bot berhenti membalas.
+- **Autoresolve sesi idle**: bot tutup sesi otomatis jika customer tidak merespons setelah batas waktu tertentu.
 
 ### Out of Scope
 
@@ -54,6 +55,7 @@ Menentukan bagaimana bot merespons customer dari pesan pertama hingga percakapan
 | BR-AI-108 | Fallback Intent OFF | Intent OFF → "Maaf Kak, fitur ini sedang tidak tersedia…" |
 | BR-AI-109 | Fallback Data Tidak Siap | Data tidak siap → "Informasi belum dapat dipastikan…" |
 | BR-AI-110 | Hubungi Agen Selalu Aktif | talk_to_agent tidak pernah dinonaktifkan, tidak dicek di gate 3 |
+| BR-AI-111 | Autoresolve Sesi Bot saat Customer Tidak Merespons | Bot tutup sesi otomatis jika customer idle. Flow selesai: 10 menit → notif → 5 menit grace → resolve. Mid-slot: 5 menit → notif → 5 menit grace → resolve |
 
 ## 4. Dependencies
 
@@ -84,6 +86,7 @@ Menentukan bagaimana bot merespons customer dari pesan pertama hingga percakapan
 | US-AI-069 | Menangani Beberapa Intent dalam Satu Pesan | Bot memproses beberapa kebutuhan dengan urutan yang aman dan jelas | Routing | Draft |
 | US-AI-070 | Menyelesaikan Flow dan Menawarkan Langkah Berikutnya | Bot menutup layanan secara jelas tanpa mengakhiri sesi secara prematur | Completion | Draft |
 | US-AI-071 | Menangani Kegagalan Handoff | Customer mendapat kepastian saat pengalihan ke agent tidak dapat diselesaikan | Handoff | Draft |
+| US-AI-072 | Autoresolve Sesi Bot saat Customer Tidak Merespons | Bot tutup sesi otomatis jika customer idle, customer bisa mulai sesi baru dengan 3-gate check | Autoresolve | Draft |
 
 ## 6. Notes for Developer
 
