@@ -3,7 +3,7 @@ id: US-AI-007
 prd: PRD-AI-001
 epic: EPIC-AI-001
 feature: FEAT-AI-001
-title: Silent Handoff: Customer Terdampak Master OFF
+title: Silent Handoff - Customer Terdampak Master OFF
 status: Draft
 priority: High
 uix_status: 0%
@@ -73,8 +73,8 @@ Customer chat ke outlet manapun di WABA.
 
 #### Related Business Rules
 
-- BR-AI-100: Effective State 3-Gate
-- BR-AI-101: Silent Handoff
+- BR-AI-100: Hierarki Aktivasi Bot
+- BR-AI-101: Pengalihan Langsung
 
 ### Detail SC-AI-007-02 - Customer Sedang Flow Bot, Master OFF
 
@@ -95,8 +95,8 @@ Owner toggle master switch OFF, lalu konfirmasi di modal (Control Panel).
 
 #### Related Business Rules
 
-- BR-AI-102: In-Flight Interruption
-- BR-AI-101: Silent Handoff
+- BR-AI-102: Penghentian Percakapan Aktif
+- BR-AI-101: Pengalihan Langsung
 
 ### Detail SC-AI-007-03 - Customer Sudah di Sesi Agent
 
@@ -116,7 +116,7 @@ Owner toggle master switch OFF, lalu konfirmasi.
 
 #### Related Business Rules
 
-- BR-AI-102: In-Flight Interruption
+- BR-AI-102: Penghentian Percakapan Aktif
 
 ## 8. Supporting Information
 

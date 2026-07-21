@@ -72,8 +72,8 @@ Fetch data memakan waktu > 1 menit (timeout external API).
 
 #### Related Business Rules
 
-- BR-AI-106: Timeout Escalation
-- BR-AI-105: Post-Handoff Bot Silence
+- BR-AI-106: Pengalihan saat Bot Tidak Dapat Melanjutkan
+- BR-AI-105: Penguncian Percakapan ke Agent
 
 ### Detail SC-AI-031-02 - Respons Dalam Batas Waktu
 
@@ -107,7 +107,7 @@ Customer tidak membalas selama 5 menit.
 
 #### Related Business Rules
 
-- BR-AI-106: Timeout Escalation
+- BR-AI-106: Pengalihan saat Bot Tidak Dapat Melanjutkan
 
 ## 8. Supporting Information
 

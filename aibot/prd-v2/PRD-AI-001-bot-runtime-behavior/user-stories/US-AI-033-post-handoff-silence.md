@@ -72,7 +72,7 @@ Customer mengirim pesan "Halo, masih disana?".
 
 #### Related Business Rules
 
-- BR-AI-105: Post-Handoff Bot Silence
+- BR-AI-105: Penguncian Percakapan ke Agent
 
 ### Detail SC-AI-033-02 - Switch ON Tidak Mengganggu Sesi Agent
 
@@ -109,7 +109,7 @@ Customer mengirim pesan baru ke outlet yang sama.
 
 #### Related Business Rules
 
-- BR-AI-105: Post-Handoff Bot Silence
+- BR-AI-105: Penguncian Percakapan ke Agent
 
 ## 8. Supporting Information
 

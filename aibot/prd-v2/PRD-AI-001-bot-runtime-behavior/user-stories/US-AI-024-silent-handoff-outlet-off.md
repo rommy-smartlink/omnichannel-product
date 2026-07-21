@@ -3,7 +3,7 @@ id: US-AI-024
 prd: PRD-AI-001
 epic: EPIC-AI-001
 feature: FEAT-AI-001
-title: Silent Handoff: Customer Terdampak Outlet OFF
+title: Silent Handoff - Customer Terdampak Outlet OFF
 status: Draft
 priority: High
 uix_status: 0%
@@ -72,8 +72,8 @@ Customer baru mengirim pesan pertama ke outlet A.
 
 #### Related Business Rules
 
-- BR-AI-100: Effective State 3-Gate
-- BR-AI-101: Silent Handoff
+- BR-AI-100: Hierarki Aktivasi Bot
+- BR-AI-101: Pengalihan Langsung
 
 ### Detail SC-AI-024-02 - Customer Sedang Flow, Outlet OFF
 
@@ -93,8 +93,8 @@ Owner toggle Outlet Switch A dari ON ke OFF, konfirmasi di modal (Control Panel)
 
 #### Related Business Rules
 
-- BR-AI-102: In-Flight Interruption
-- BR-AI-101: Silent Handoff
+- BR-AI-102: Penghentian Percakapan Aktif
+- BR-AI-101: Pengalihan Langsung
 
 ### Detail SC-AI-024-03 - Customer Sudah di Sesi Agent
 
@@ -114,7 +114,7 @@ Owner toggle Outlet Switch A OFF.
 
 #### Related Business Rules
 
-- BR-AI-102: In-Flight Interruption
+- BR-AI-102: Penghentian Percakapan Aktif
 
 ## 8. Supporting Information
 

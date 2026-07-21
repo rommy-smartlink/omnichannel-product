@@ -70,7 +70,7 @@ LLM tidak bisa mengklasifikasikan intent (confidence di bawah threshold, atau ti
 
 #### Related Business Rules
 
-- BR-AI-107: Unknown Intent Fallback
+- BR-AI-107: Penanganan Intent Tidak Dikenali
 
 ### Detail SC-AI-030-02 - Unknown Kedua → Eskalasi
 
@@ -105,7 +105,7 @@ Customer mengirim "cek laundry TRX123" — berhasil diklasifikasikan.
 
 #### Related Business Rules
 
-- BR-AI-107: Unknown Intent Fallback
+- BR-AI-107: Penanganan Intent Tidak Dikenali
 
 ## 8. Supporting Information
 

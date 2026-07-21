@@ -68,7 +68,7 @@ Spesifikasi runtime behavior yang menjadi jembatan antara Bot Control Panel (kon
 - Capability OFF fallback: fitur tidak tersedia.
 - Data tidak siap fallback: informasi belum dapat dipastikan.
 - Semua configurable capability OFF → silent handoff tanpa greeting.
-- Command manual "menu", "hubungi agen", "batal" selalu berfungsi.
+- Command manual "menu", "hubungi agen" selalu berfungsi.
 
 ### Out of Scope
 

@@ -71,7 +71,7 @@ Customer tetap mengetik "promo apa aja nih?".
 
 #### Related Business Rules
 
-- BR-AI-109: Data Not Ready Fallback
+- BR-AI-109: Fallback Data Tidak Siap
 
 ### Detail SC-AI-032-02 - Data Siap, Respons Normal
 

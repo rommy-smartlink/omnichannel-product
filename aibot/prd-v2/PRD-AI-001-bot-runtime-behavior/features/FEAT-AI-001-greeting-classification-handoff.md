@@ -19,17 +19,17 @@ Menentukan bagaimana bot merespons customer dari pesan pertama hingga percakapan
 
 ### In Scope
 
-- **Effective state evaluation**: 3-gate check (Master → Outlet → Intent) sebelum bot merespons.
-- **Greeting & menu**: menampilkan daftar capability yang ON + data siap.
-- **Silent handoff (semua penyebab)**: Master OFF, Outlet OFF, semua intent configurable OFF.
-- **In-flight interruption**: menghentikan percakapan bot saat switch dimatikan owner.
-- **Capability OFF fallback**: pesan fallback saat customer meminta intent yang OFF.
-- **Explicit handoff**: customer minta agent — konfirmasi lalu handoff.
-- **Unknown intent fallback**: bot tidak paham → tawar daftar bantuan → repeated unknown → eskalasi.
-- **Timeout escalation**: 1 menit bot tidak bisa merespons → eskalasi ke agent.
-- **Data not ready fallback**: informasi belum dapat dipastikan.
-- **Command override**: "menu", "hubungi agen", "batal" selalu berfungsi.
-- **Post-handoff silence**: setelah handoff, bot berhenti membalas.
+- **Evaluasi status efektif**: 3-gate check (Master → Outlet → Intent) sebelum bot merespons.
+- **Salam & menu**: menampilkan daftar capability yang ON + data siap.
+- **Pengalihan langsung (semua penyebab)**: Master OFF, Outlet OFF, semua intent configurable OFF.
+- **Penghentian percakapan aktif**: menghentikan percakapan bot saat switch dimatikan owner.
+- **Fallback intent nonaktif**: pesan fallback saat customer meminta intent yang OFF.
+- **Pengalihan atas permintaan**: customer minta agent — konfirmasi lalu handoff.
+- **Fallback intent tidak dikenali**: bot tidak paham → tawar daftar bantuan → repeated unknown → eskalasi.
+- **Eskalasi waktu habis**: 1 menit bot tidak bisa merespons → eskalasi ke agent.
+- **Fallback data tidak siap**: informasi belum dapat dipastikan.
+- **Perintah kendali**: "menu", "hubungi agen" selalu berfungsi.
+- **Penguncian percakapan ke agent**: setelah handoff, bot berhenti membalas.
 
 ### Out of Scope
 
@@ -43,17 +43,17 @@ Menentukan bagaimana bot merespons customer dari pesan pertama hingga percakapan
 
 | BR ID | Nama | Deskripsi |
 |---|---|---|
-| BR-AI-100 | Effective State 3-Gate | Master ON + Outlet ON + Intent ON → bot jalan. Urutan: Master → Outlet → Intent |
-| BR-AI-101 | Silent Handoff | Bot tidak kirim greeting, tidak klasifikasi, langsung ke agent |
-| BR-AI-102 | In-Flight Interruption | Switch OFF → bot hentikan percakapan pada respons berikutnya, arahkan ke agent |
-| BR-AI-103 | Greeting Hanya Intent Siap | Hanya capability ON + data siap yang muncul di greeting |
-| BR-AI-104 | Command Override | "menu", "hubungi agen", "batal" selalu diproses |
-| BR-AI-105 | Post-Handoff Bot Silence | Setelah handoff, bot stop membalas |
-| BR-AI-106 | Timeout Escalation | 1 menit no response → eskalasi ke agent |
-| BR-AI-107 | Unknown Intent Fallback | Repeated unknown → daftar bantuan → eskalasi |
-| BR-AI-108 | Capability OFF Fallback | Intent OFF → "Maaf Kak, fitur ini sedang tidak tersedia…" |
-| BR-AI-109 | Data Not Ready Fallback | Data tidak siap → "Informasi belum dapat dipastikan…" |
-| BR-AI-110 | talk_to_agent Always ON | talk_to_agent tidak pernah dinonaktifkan, tidak dicek di gate 3 |
+| BR-AI-100 | Hierarki Aktivasi Bot | Master ON + Outlet ON + Intent ON → bot jalan. Urutan: Master → Outlet → Intent |
+| BR-AI-101 | Pengalihan Langsung saat Bot Tidak Aktif | Bot tidak kirim greeting, tidak klasifikasi, langsung ke agent |
+| BR-AI-102 | Penghentian Bot pada Percakapan Aktif | Switch OFF → bot hentikan percakapan pada respons berikutnya, arahkan ke agent |
+| BR-AI-103 | Salam Berdasarkan Layanan Tersedia | Hanya capability ON + data siap yang muncul di greeting |
+| BR-AI-104 | Perintah Kendali yang Selalu Tersedia | "menu", "hubungi agen" selalu diproses |
+| BR-AI-105 | Penguncian Percakapan ke Agent | Setelah handoff, bot stop membalas |
+| BR-AI-106 | Pengalihan saat Bot Tidak Dapat Melanjutkan | 1 menit no response → eskalasi ke agent |
+| BR-AI-107 | Penanganan Intent Tidak Dikenali | Repeated unknown → daftar bantuan → eskalasi |
+| BR-AI-108 | Fallback Intent OFF | Intent OFF → "Maaf Kak, fitur ini sedang tidak tersedia…" |
+| BR-AI-109 | Fallback Data Tidak Siap | Data tidak siap → "Informasi belum dapat dipastikan…" |
+| BR-AI-110 | Hubungi Agen Selalu Aktif | talk_to_agent tidak pernah dinonaktifkan, tidak dicek di gate 3 |
 
 ## 4. Dependencies
 
@@ -77,8 +77,13 @@ Menentukan bagaimana bot merespons customer dari pesan pertama hingga percakapan
 | US-AI-030 | Unknown Intent Fallback | Bot tidak paham → tawar bantuan → eskalasi | Fallback | Draft |
 | US-AI-031 | Timeout Escalation | 1 menit tidak bisa respon → eskalasi ke agent | Fallback | Draft |
 | US-AI-032 | Data Not Ready Fallback | Data tidak siap → pesan tidak dapat dipastikan | Fallback | Draft |
-| US-AI-018 | Command Override | "menu", "hubungi agen", "batal" selalu berfungsi | Command | Draft |
+| US-AI-018 | Command Override | "menu", "hubungi agen" selalu berfungsi | Command | Draft |
 | US-AI-033 | Post-Handoff Bot Silence | Setelah handoff, bot berhenti membalas | Handoff | Draft |
+| US-AI-067 | Melanjutkan Konteks Percakapan | Bot mempertahankan konteks untuk pesan lanjutan yang masih terkait | Context | Draft |
+| US-AI-068 | Berpindah Intent di Tengah Percakapan | Customer dapat mengganti kebutuhan tanpa terjebak flow sebelumnya | Routing | Draft |
+| US-AI-069 | Menangani Beberapa Intent dalam Satu Pesan | Bot memproses beberapa kebutuhan dengan urutan yang aman dan jelas | Routing | Draft |
+| US-AI-070 | Menyelesaikan Flow dan Menawarkan Langkah Berikutnya | Bot menutup layanan secara jelas tanpa mengakhiri sesi secara prematur | Completion | Draft |
+| US-AI-071 | Menangani Kegagalan Handoff | Customer mendapat kepastian saat pengalihan ke agent tidak dapat diselesaikan | Handoff | Draft |
 
 ## 6. Notes for Developer
 

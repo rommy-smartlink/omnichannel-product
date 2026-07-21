@@ -75,7 +75,7 @@ Customer baru memilih outlet A dan mengirim pesan pertama.
 
 #### Related Business Rules
 
-- BR-AI-103: Greeting Hanya Intent Siap
+- BR-AI-103: Salam Berdasarkan Layanan Tersedia
 
 ### Detail SC-AI-028-02 - Semua Intent OFF
 
@@ -111,8 +111,8 @@ Customer baru memilih outlet A.
 
 #### Related Business Rules
 
-- BR-AI-103: Greeting Hanya Intent Siap
-- BR-AI-101: Silent Handoff
+- BR-AI-103: Salam Berdasarkan Layanan Tersedia
+- BR-AI-101: Pengalihan Langsung saat Bot Tidak Aktif
 
 ## 8. Supporting Information
 

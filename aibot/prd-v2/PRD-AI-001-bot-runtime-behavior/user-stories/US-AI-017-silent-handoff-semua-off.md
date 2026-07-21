@@ -3,7 +3,7 @@ id: US-AI-017
 prd: PRD-AI-001
 epic: EPIC-AI-001
 feature: FEAT-AI-001
-title: Silent Handoff: Semua Intent OFF
+title: Silent Handoff - Semua Intent OFF
 status: Draft
 priority: High
 uix_status: 0%
@@ -74,9 +74,9 @@ Customer memilih outlet X dan mengirim pesan pertama "Halo".
 
 #### Related Business Rules
 
-- BR-AI-100: Effective State 3-Gate
-- BR-AI-101: Silent Handoff
-- BR-AI-110: talk_to_agent Always ON
+- BR-AI-100: Hierarki Aktivasi Bot
+- BR-AI-101: Pengalihan Langsung saat Bot Tidak Aktif
+- BR-AI-110: Hubungi Agen Selalu Aktif
 
 ## 8. Supporting Information
 

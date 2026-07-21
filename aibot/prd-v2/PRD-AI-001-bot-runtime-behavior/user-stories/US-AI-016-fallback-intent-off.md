@@ -71,9 +71,9 @@ Customer mengetik "Cek status laundry TRX12345".
 
 #### Related Business Rules
 
-- BR-AI-100: Effective State 3-Gate
-- BR-AI-108: Capability OFF Fallback
-- BR-AI-104: Command Override
+- BR-AI-100: Hierarki Aktivasi Bot
+- BR-AI-108: Fallback Intent OFF
+- BR-AI-104: Perintah Kendali
 
 #### Validation
 

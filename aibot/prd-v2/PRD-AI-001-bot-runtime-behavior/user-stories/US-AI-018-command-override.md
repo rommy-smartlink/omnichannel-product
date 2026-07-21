@@ -3,7 +3,7 @@ id: US-AI-018
 prd: PRD-AI-001
 epic: EPIC-AI-001
 feature: FEAT-AI-001
-title: Command Override
+title: Command Override 
 status: Draft
 priority: High
 uix_status: 0%
@@ -11,7 +11,7 @@ created_at: 2026-07-17
 updated_at: 2026-07-17
 ---
 
-# US-AI-018 - Command Override
+# US-AI-018 - Command Override (menu, hubungi agen)
 
 ## 1. Parent Reference
 
@@ -22,20 +22,19 @@ updated_at: 2026-07-17
 ## 2. User Story
 
 Sebagai customer di outlet dengan pengaturan intent apapun,
-Saya ingin perintah manual "menu", "hubungi agen", dan "batal" selalu diproses oleh bot,
-Agar saya selalu bisa mengakses menu bantuan, menghubungi agent, atau membatalkan percakapan tanpa peduli pengaturan intent.
+Saya ingin perintah manual "menu" dan "hubungi agen" selalu diproses oleh bot,
+Agar saya selalu bisa mengakses menu bantuan atau menghubungi agent tanpa peduli pengaturan intent.
 
 ## 3. Goal
 
-Command "menu", "hubungi agen", "batal" selalu berfungsi di bot engine, terlepas dari pengaturan intent per outlet (Gate 3). Owner tidak bisa memblokir akses customer ke agent atau menu melalui Control Panel.
+Command "menu" dan "hubungi agen" selalu berfungsi di bot engine, terlepas dari pengaturan intent per outlet (Gate 3). Owner tidak bisa memblokir akses customer ke agent atau menu melalui Control Panel.
 
 ## 4. Acceptance Criteria
 
 - "hubungi agen" → selalu diproses bot engine, memicu handoff ke agent.
 - "menu" → selalu diproses, menampilkan daftar capability yang ON.
-- "batal" → selalu diproses, membatalkan flow yang sedang berlangsung dan kembali ke state awal (siap menerima intent baru).
-- Ketiga command ini bypass Gate 3 (Intent Switch) — tidak dicek apakah intent terkait ON atau OFF.
-- Owner tidak bisa menonaktifkan ketiga command ini melalui pengaturan intent di Control Panel.
+- Kedua command ini bypass Gate 3 (Intent Switch) — tidak dicek apakah intent terkait ON atau OFF.
+- Owner tidak bisa menonaktifkan kedua command ini melalui pengaturan intent di Control Panel.
 
 ## 5. Form Rules
 
@@ -50,7 +49,7 @@ Command "menu", "hubungi agen", "batal" selalu berfungsi di bot engine, terlepas
 | Kode SC | Given | When | Then |
 |---|---|---|---|
 | SC-AI-018-01 | Outlet X dengan `talk_to_agent` selalu ON (BR-AI-110). Semua configurable intent bisa ON atau OFF | Customer kirim "Saya mau bicara dengan admin" | Bot engine bypass Gate 3 — selalu match intent `talk_to_agent`. Bot konfirmasi dan teruskan ke agent outlet X. Customer selalu punya jalur ke manusia. |
-| SC-AI-018-02 | Outlet X dengan 5 dari 6 intent configurable OFF. Customer sedang dalam flow intent yang ON | Customer mengetik "menu", "hubungi agen", atau "batal" | Bot engine bypass Gate 3 — selalu interpretasikan command tersebut terlepas dari pengaturan per outlet. Command override toggle pengaturan intent. |
+| SC-AI-018-02 | Outlet X dengan 5 dari 6 intent configurable OFF. Customer sedang dalam flow intent yang ON | Customer mengetik "menu" atau "hubungi agen" | Bot engine bypass Gate 3 — selalu interpretasikan command tersebut terlepas dari pengaturan per outlet. Command override toggle pengaturan intent. |
 
 ### Detail SC-AI-018-01 - Hubungi Agen Selalu Tersedia
 
@@ -70,10 +69,10 @@ Customer di outlet X mengirim "Saya mau bicara dengan admin" atau "hubungi agen"
 
 #### Related Business Rules
 
-- BR-AI-104: Command Override
-- BR-AI-110: talk_to_agent Always ON
+- BR-AI-104: Perintah Kendali
+- BR-AI-110: Hubungi Agen Selalu Aktif
 
-### Detail SC-AI-018-02 - Menu dan Batal Selalu Berfungsi
+### Detail SC-AI-018-02 - Menu dan Hubungi Agen Selalu Berfungsi
 
 #### Given
 
@@ -81,13 +80,12 @@ Outlet X dengan 5 dari 6 intent configurable OFF. Customer sudah berada di flow 
 
 #### When
 
-Customer mengetik "menu", "hubungi agen", atau "batal".
+Customer mengetik "menu" atau "hubungi agen".
 
 #### Then
 
 - "menu" → bot engine bypass Gate 3, menampilkan daftar capability yang ON (BR-AI-103).
 - "hubungi agen" → bot engine proses handoff.
-- "batal" → bot engine batalkan flow saat ini, kembali ke state siap menerima intent baru.
 - Semua command ini berfungsi terlepas dari toggle pengaturan intent di Control Panel.
 
 #### Related Business Rules

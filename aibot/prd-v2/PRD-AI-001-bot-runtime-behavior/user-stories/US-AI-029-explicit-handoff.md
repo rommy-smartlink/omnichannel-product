@@ -74,9 +74,9 @@ Customer mengetik "Saya mau bicara dengan admin".
 
 #### Related Business Rules
 
-- BR-AI-104: Command Override
-- BR-AI-105: Post-Handoff Bot Silence
-- BR-AI-110: talk_to_agent Always ON
+- BR-AI-104: Perintah Kendali
+- BR-AI-105: Penguncian Percakapan ke Agent
+- BR-AI-110: Hubungi Agen Selalu Aktif
 
 ### Detail SC-AI-029-02 - Handoff dari Greeting
 

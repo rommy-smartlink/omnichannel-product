@@ -121,7 +121,7 @@ Customer di outlet A mengirim "Cek laundry TRX123".
 
 #### Related Business Rules
 
-- BR-AI-100: Effective State 3-Gate
+- BR-AI-100: Hierarki Aktivasi Bot
 
 ## 8. Supporting Information
 
