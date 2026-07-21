@@ -13,7 +13,7 @@ updated_at: 2026-07-17
 
 ## 1. Purpose
 
-Card outlet di Control Panel menampilkan **24 Jam** hanya jika outlet menggunakan skema default 24 jam. Jika outlet memiliki jadwal kustom (zona waktu, jadwal per hari, sesi), card tidak menampilkan info jam operasional — detail tampil di modal capability. Saat fitur rilis, semua outlet default 24 Jam.
+Card outlet di Control Panel menampilkan **24 Jam** hanya jika outlet menggunakan skema default 24 jam. Jika outlet memiliki jadwal kustom (zona waktu, jadwal per hari, sesi), card tidak menampilkan info jam operasional. Aturan yang sama berlaku di modal capability. Saat fitur rilis, semua outlet default 24 Jam.
 
 ## 2. Scope
 
@@ -28,7 +28,7 @@ Card outlet di Control Panel menampilkan **24 Jam** hanya jika outlet menggunaka
 
 - Setup jam operasional langsung di dalam modal Control Panel.
 - Validasi prasyarat untuk intent `get_operating_hours`.
-- Menampilkan detail status (Default 24/7, Jadwal disesuaikan, dll) di card.
+- Menampilkan detail status (Default 24/7, Jadwal disesuaikan, dll) di card atau modal.
 - Bulk setup Jam Operasional.
 
 ## 3. Business Rules
@@ -45,9 +45,9 @@ Tombol "Atur Jam Operasional" mengarahkan owner ke menu Pengaturan Outlet.
 
 Intent `get_operating_hours` dapat ON tanpa validasi jadwal.
 
-### BR-AI-017 — Card Hanya untuk Default
+### BR-AI-017 — Card & Modal Hanya untuk Default
 
-Card outlet hanya menampilkan "Jam Operasional 24 Jam" untuk skema default. Outlet dengan jadwal kustom tidak menampilkan info jam operasional di card — detail di modal capability.
+Card outlet dan modal capability hanya menampilkan "Jam Operasional 24 Jam" untuk skema default. Outlet dengan jadwal kustom tidak menampilkan info jam operasional di card maupun modal.
 
 ## 4. Dependencies
 
@@ -65,4 +65,4 @@ Card outlet hanya menampilkan "Jam Operasional 24 Jam" untuk skema default. Outl
 
 - Card outlet menampilkan "Jam Operasional 24 Jam" hanya untuk skema default.
 - Outlet dengan jadwal kustom → card tidak menampilkan info jam operasional.
-- Detail status (Default 24/7, Jadwal disesuaikan, Tutup sementara, Nonaktif, Perlu perbaikan) tampil di modal capability.
+- Modal capability ikut aturan yang sama: tampil "Jam Operasional 24 Jam" hanya untuk skema default, tidak tampil untuk jadwal kustom. Tidak ada detail status konfigurasi outlet di modal.
