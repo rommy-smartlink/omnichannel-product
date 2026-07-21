@@ -31,7 +31,7 @@ Owner dapat mengaktifkan atau menonaktifkan 6 intent configurable untuk setiap o
 - PATCH gagal → toast error, modal tetap terbuka, perubahan lokal dipertahankan.
 - PATCH sukses → modal tertutup, toast "Tersimpan", daftar outlet refresh otomatis.
 - 5 intent configurable (selain Jam Operasional) default ON untuk outlet baru.
-- `get_operating_hours` default OFF untuk outlet baru.
+- `get_operating_hours` default ON.
 - Intent `talk_to_agent` selalu ON, tidak memiliki row di tabel pengaturan.
 - Card outlet menampilkan jumlah intent aktif dan status Jam Operasional.
 - Intent OFF: bot kirim fallback message, tidak eksekusi capability.
@@ -66,7 +66,7 @@ Jika di satu outlet keenam intent configurable dalam keadaan OFF dan hanya `talk
 
 ### BR-AI-010 - Default ON untuk 5 Intent Configurable
 
-Saat outlet baru terdaftar omnichannel, sistem otomatis membuat konfigurasi dengan 5 intent configurable (check_laundry_status, check_ticket_status, get_outlet_services, get_active_promos, get_member_info) dalam keadaan ON. Intent `get_operating_hours` default OFF. `talk_to_agent` tidak memiliki row karena selalu ON.
+Saat outlet baru terdaftar omnichannel, sistem otomatis membuat konfigurasi dengan 6 intent configurable (check_laundry_status, check_ticket_status, get_outlet_services, get_operating_hours, get_active_promos, get_member_info) dalam keadaan ON. `talk_to_agent` tidak memiliki row karena selalu ON.
 
 ### BR-AI-011 - Greeting Hanya Menampilkan Intent Siap
 

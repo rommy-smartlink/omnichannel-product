@@ -31,7 +31,7 @@ Tujuan: memberikan kontrol bot yang granular tanpa membiarkan capability aktif s
 - Master switch OFF tidak menghapus atau mengubah konfigurasi per-outlet.
 - `talk_to_agent` selalu tersedia dan tidak dapat dimatikan.
 - Menampilkan status kesiapan data untuk intent yang memiliki prasyarat.
-- `get_operating_hours` default OFF sampai jadwal valid tersedia.
+- `get_operating_hours` default ON dengan asumsi 24 jam.
 - Menjadikan toggle Jam Operasional sebagai entry point setup jika konfigurasi belum tersedia.
 - Mencegah owner menyimpan state ON untuk Jam Operasional jika jadwal belum valid.
 - Mendukung aktivasi Jam Operasional dari halaman pengaturan melalui **Simpan & Aktifkan**.
@@ -63,7 +63,7 @@ Tujuan: memberikan kontrol bot yang granular tanpa membiarkan capability aktif s
 | `check_laundry_status` | Ya | ON | Mengikuti kesiapan fitur existing. |
 | `check_ticket_status` | Ya | ON | Mengikuti kesiapan fitur existing. |
 | `get_outlet_services` | Ya | ON | Mengikuti kesiapan fitur existing. |
-| `get_operating_hours` | Ya, dengan validasi | **OFF** | Zona waktu dan jadwal operasional valid. |
+| `get_operating_hours` | Ya | **ON** | Tidak ada; default 24 jam. |
 | `get_active_promos` | Ya | ON | Mengikuti kesiapan fitur existing. |
 | `get_member_info` | Ya | ON | Mengikuti kesiapan fitur existing. |
 | `talk_to_agent` | Tidak | Selalu ON | Tidak ada; wajib tersedia. |
@@ -81,15 +81,14 @@ Tujuan: memberikan kontrol bot yang granular tanpa membiarkan capability aktif s
 
 ### Outlet Baru yang Terdaftar Omnichannel
 
-- Lima intent configurable selain Jam Operasional mengikuti default existing: **ON**.
-- `get_operating_hours` default **OFF**.
+- Enam intent configurable mengikuti default existing: **ON**.
+- `get_operating_hours` default **ON**.
 - Card outlet menampilkan **24 Jam** hanya untuk skema default. Outlet dengan jadwal kustom tidak menampilkan info jam operasional di card.
 
 ### Existing Outlet
 
-- `get_operating_hours` ditetapkan **OFF** jika belum memiliki konfigurasi jam operasional yang tervalidasi.
-- Sistem tidak boleh membuat jadwal default berdasarkan alamat, jam umum bisnis, histori transaksi, atau asumsi lain.
-- Owner harus mengatur dan mengonfirmasi jadwal sebelum intent dapat aktif.
+- `get_operating_hours` default **ON** dengan asumsi 24 jam, kecuali owner sebelumnya sudah menonaktifkannya.
+- Existing outlet langsung memiliki intent ON tanpa perlu konfigurasi.
 
 ---
 

@@ -345,7 +345,7 @@ Konteks di-reset ketika customer memilih outlet lain atau conversation berpindah
 
 ## Implikasi ke Control Panel
 
-- `get_operating_hours` default OFF sampai jadwal valid tersedia.
+- `get_operating_hours` default ON dengan asumsi 24 jam. 
 - Toggle ON ketika belum siap membuka dialog prasyarat, bukan langsung mengaktifkan intent.
 - Jika jadwal sudah valid, intent dapat diaktifkan normal.
 - Intent OFF tidak ditampilkan di greeting atau menu bantuan bot.

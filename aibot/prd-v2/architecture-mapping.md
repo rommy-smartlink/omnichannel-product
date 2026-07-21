@@ -43,6 +43,15 @@ PRD-AI-003: Customer Self-Service Capabilities      ← gabungan 7 intent PRD
 PRD-AI-004: Pengaturan Outlet                       ← P8-pengaturan-jam-operasional/
   └── EPIC-AI-004: Pengaturan Outlet
         └── FEAT-AI-012: Pengaturan Jam Operasional Outlet
+              ├── US-AI-034: Melihat Status Konfigurasi Jam Operasional
+              ├── US-AI-035: Memilih Zona Waktu Outlet
+              ├── US-AI-036: Mengatur Jadwal Mingguan
+              ├── US-AI-037: Jadwal Melewati Tengah Malam
+              ├── US-AI-038: Membuat Jadwal Khusus
+              ├── US-AI-039: Menyimpan & Mengaktifkan Jadwal
+              ├── US-AI-040: Mengubah Jadwal Saat Intent Aktif
+              ├── US-AI-041: Validasi Konflik & Hapus Jadwal Aktif
+              └── US-AI-042: Navigasi Aktivasi dari Control Panel
 ```
 
 ---
@@ -105,9 +114,18 @@ PRD-AI-004: Pengaturan Outlet                       ← P8-pengaturan-jam-operas
 | FEAT-AI-010 | Feature | Info Member | ❌ |
 | FEAT-AI-011 | Feature | Info Layanan Outlet | ❌ |
 | | | | |
-| PRD-AI-004 | PRD | Pengaturan Outlet | ❌ |
-| EPIC-AI-004 | Epic | Pengaturan Outlet | ❌ |
-| FEAT-AI-012 | Feature | Pengaturan Jam Operasional Outlet | ❌ |
+| PRD-AI-004 | PRD | Pengaturan Outlet | ✅ `prd.md` |
+| EPIC-AI-004 | Epic | Pengaturan Outlet | ✅ `EPIC-AI-004-pengaturan-outlet.md` |
+| FEAT-AI-012 | Feature | Pengaturan Jam Operasional Outlet | ✅ `FEAT-AI-012-pengaturan-jam-operasional-outlet.md` |
+| US-AI-034 | User Story | Melihat Status Konfigurasi Jam Operasional | ✅ |
+| US-AI-035 | User Story | Memilih Zona Waktu Outlet | ✅ |
+| US-AI-036 | User Story | Mengatur Jadwal Mingguan | ✅ |
+| US-AI-037 | User Story | Jadwal Melewati Tengah Malam | ✅ |
+| US-AI-038 | User Story | Membuat Jadwal Khusus | ✅ |
+| US-AI-039 | User Story | Menyimpan & Mengaktifkan Jadwal | ✅ |
+| US-AI-040 | User Story | Mengubah Jadwal Saat Intent Aktif | ✅ |
+| US-AI-041 | User Story | Validasi Konflik & Hapus Jadwal Aktif | ✅ |
+| US-AI-042 | User Story | Navigasi Aktivasi dari Control Panel | ✅ |
 
 ---
 
@@ -115,7 +133,7 @@ PRD-AI-004: Pengaturan Outlet                       ← P8-pengaturan-jam-operas
 
 | Level | ✅ Selesai | ❌ Belum | Total |
 |-------|:--:|:--:|:--:|
-| PRD | 2 | 2 | 4 |
-| Epic | 2 | 2 | 4 |
-| Feature | 5 | 7 | 12 |
-| User Story | 30 | ~25+ | ~55+ |
+| PRD | 3 | 1 | 4 |
+| Epic | 3 | 1 | 4 |
+| Feature | 6 | 7 | 13 |
+| User Story | 39 | ~25+ | ~64+ |

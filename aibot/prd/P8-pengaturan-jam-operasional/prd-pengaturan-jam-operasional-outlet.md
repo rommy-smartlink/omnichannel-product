@@ -4,7 +4,7 @@
 
 Fitur Pengaturan Jam Operasional Outlet memungkinkan owner menetapkan jadwal operasional yang berlaku untuk masing-masing outlet. Pengaturan ini menjadi sumber data resmi untuk menentukan kapan outlet buka, tutup, beristirahat, buka 24 jam, atau memiliki perubahan jadwal pada tanggal tertentu.
 
-Fitur ini merupakan prasyarat bagi intent bot `get_operating_hours`. Intent tersebut tidak boleh diaktifkan sebelum outlet memiliki zona waktu dan jadwal operasional yang valid. Dengan demikian, bot tidak menjawab berdasarkan asumsi atau jadwal yang belum dikonfirmasi oleh owner.
+Fitur ini merupakan sumber data bagi intent bot `get_operating_hours`. Intent tersebut default ON dengan asumsi semua outlet 24 jam. Owner dapat mengonfigurasi jadwal spesifik kapan pun untuk menggantikan asumsi 24 jam.
 
 Tujuan: menyediakan sumber data jam operasional yang akurat, mudah dikelola, dan dapat digunakan secara konsisten oleh Bot Omnichannel maupun channel customer-facing lain pada fase berikutnya.
 
@@ -17,8 +17,7 @@ Tujuan: menyediakan sumber data jam operasional yang akurat, mudah dikelola, dan
 - As an **owner**, saya ingin **menandai suatu hari sebagai buka, tutup, atau buka 24 jam** agar **jadwal mingguan dapat mewakili pola operasional outlet**.
 - As an **owner**, saya ingin **mengatur dua sesi operasional dalam satu hari** agar **outlet yang memiliki jam istirahat tetap dapat direpresentasikan dengan benar**.
 - As an **owner**, saya ingin **mengatur jadwal khusus pada tanggal tertentu** agar **hari libur atau perubahan jam tidak menggunakan jadwal mingguan yang salah**.
-- As an **owner**, saya ingin **menyimpan jadwal tanpa langsung mengaktifkan bot** agar **saya dapat menyiapkan data terlebih dahulu**.
-- As an **owner**, saya ingin **menyimpan sekaligus mengaktifkan intent jam operasional** agar **tidak perlu kembali ke Control Panel setelah konfigurasi selesai**.
+- As an **owner**, saya ingin **menyimpan jadwal setelah dikonfigurasi** agar **bot menggunakan data yang akurat**.
 - As an **owner**, saya ingin **mematikan intent tanpa menghapus jadwal** agar **jadwal dapat digunakan kembali ketika intent diaktifkan lagi**.
 
 ---
@@ -34,8 +33,9 @@ Tujuan: menyediakan sumber data jam operasional yang akurat, mudah dikelola, dan
 - Mendukung maksimal dua sesi operasional per hari.
 - Mendukung jadwal yang selesai pada hari berikutnya.
 - Mendukung jadwal khusus berdasarkan tanggal atau rentang tanggal.
-- Memvalidasi kelengkapan jadwal sebelum intent `get_operating_hours` dapat diaktifkan.
-- Menyediakan aksi **Simpan Saja** dan **Simpan & Aktifkan** ketika intent masih OFF.
+- Menyediakan aksi **Simpan** ketika intent sudah ON.
+- Memastikan validasi zona waktu dan jadwal sebelum simpan.
+- Intent tidak bergantung pada status konfigurasi; owner bisa nonaktifkan intent kapan saja dari Control Panel.
 - Menyediakan preview jadwal sebelum disimpan.
 - Memastikan perubahan yang belum disimpan tidak memengaruhi jawaban bot.
 - Menjaga jadwal tetap tersimpan ketika intent dimatikan.
@@ -70,10 +70,9 @@ Hanya outlet milik owner yang dapat dipilih dan dikonfigurasi.
 
 | Status | Definisi | Dampak ke Intent |
 |---|---|---|
-| Belum dikonfigurasi | Zona waktu atau jadwal belum pernah disimpan. | `get_operating_hours` wajib OFF. |
-| Belum lengkap | Sebagian data sudah diisi tetapi belum memenuhi validasi. | Tidak dapat diaktifkan. |
-| Siap diaktifkan | Jadwal valid dan tersimpan, tetapi intent masih OFF. | Dapat diaktifkan dari halaman ini atau Control Panel. |
-| Aktif | Jadwal valid dan intent ON. | Bot dapat menjawab jam operasional. |
+| Default 24 Jam | Belum pernah dikonfigurasi. | Intent ON, bot jawab 24 jam. |
+| Belum lengkap | Sebagian data sudah diisi tetapi belum memenuhi validasi. | Intent tetap ON, bot tetap jawab 24 jam (data belum disimpan). |
+| Disesuaikan | Jadwal valid dan tersimpan. | Intent ON, bot jawab sesuai jadwal. |
 
 Status konfigurasi dan status intent adalah dua hal berbeda. Jadwal dapat berada dalam status **Siap diaktifkan** walaupun intent masih OFF.
 
@@ -411,13 +410,12 @@ Jika master switch WABA sedang OFF, **Simpan & Aktifkan** tetap dapat mengatur i
 
 ## Implikasi ke Control Panel
 
-- `get_operating_hours` memiliki default OFF untuk outlet baru dan existing outlet yang belum memiliki konfigurasi.
-- Row intent menampilkan status konfigurasi: **Perlu pengaturan**, **Siap diaktifkan**, atau **Aktif**.
-- Toggle ON tidak dapat disimpan jika jadwal belum valid.
+- `get_operating_hours` default ON untuk outlet baru dan existing outlet.
+- Row intent menampilkan status konfigurasi: **Default 24 Jam** atau **Disesuaikan**.
+- Toggle ON/OFF bebas tanpa validasi prasyarat.
 - CTA **Atur Jam Operasional** mengarahkan owner ke halaman pengaturan outlet terkait.
-- Aksi **Simpan & Aktifkan** dari halaman ini memperbarui status intent pada Control Panel.
 - Mematikan intent dari Control Panel tidak menghapus jadwal.
-- Jadwal yang tidak valid tidak dihitung sebagai intent aktif dalam greeting atau menu bot.
+- Jadwal yang tidak valid tidak bisa disimpan, tetapi intent tetap ON dengan asumsi 24 jam.
 
 ---
 
